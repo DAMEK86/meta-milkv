@@ -1,0 +1,127 @@
+From 0eeb7958381c330d6d67e46a15b44d38a2e9177e Mon Sep 17 00:00:00 2001
+From: GP Orcullo <kinsamanka@gmail.com>
+Date: Sat, 17 Aug 2024 14:00:18 +0000
+Subject: [PATCH 1/2] dts: refactor milkv-duo dts
+
+Upstream-Status: Pending
+---
+ .../boot/dts/cvitek/cv1800b_milkv_duo_sd.dts  | 65 +++----------------
+ .../dts/cvitek/cv180x_default_memmap.dtsi     |  9 +--
+ 2 files changed, 11 insertions(+), 63 deletions(-)
+
+diff --git a/arch/riscv/boot/dts/cvitek/cv1800b_milkv_duo_sd.dts b/arch/riscv/boot/dts/cvitek/cv1800b_milkv_duo_sd.dts
+index 2295c6206d7a..2cc33589ff43 100644
+--- a/arch/riscv/boot/dts/cvitek/cv1800b_milkv_duo_sd.dts
++++ b/arch/riscv/boot/dts/cvitek/cv1800b_milkv_duo_sd.dts
+@@ -1,51 +1,21 @@
+ /dts-v1/;
+ 
+-#define CVIMMAP_FREERTOS_ADDR 0x83f40000	/* offset 63.25MiB */
+-#define CVIMMAP_FREERTOS_SIZE 0x0		/* 0.0KiB */
+-#define CVIMMAP_FREERTOS_RESERVED_ION_SIZE 0x0	/* 0.0KiB */
+-#define CVIMMAP_ION_ADDR 0x83f40000		/* offset 63.25MiB */
+-#define CVIMMAP_ION_SIZE 0x0			/* 0.0KiB */
++#define CVIMMAP_DRAM_BASE 0x80000000
++#define CVIMMAP_FREERTOS_ADDR 0x83f40000
++#define CVIMMAP_FREERTOS_SIZE 0xc0000
++#define CVIMMAP_ION_ADDR 0x83f40000
++#define CVIMMAP_ION_SIZE 0x0
++#define CVIMMAP_KERNEL_MEMORY_SIZE 0x3F40000
+ 
+ #include "cv180x_base_riscv.dtsi"
+ #include "cv180x_asic_qfn.dtsi"
+ #include "cv180x_asic_sd.dtsi"
+ #include "cv180x_default_memmap.dtsi"
+ 
+-&mipi_rx{
+-	snsr-reset = <&portc 8 GPIO_ACTIVE_LOW>, <&portc 8 GPIO_ACTIVE_LOW>, <&portc 8 GPIO_ACTIVE_LOW>;
+-};
+-
+-&spi2 {
+-	status = "okay";
+-
+-	spidev@0 {
+-		status = "okay";
+-	};
+-};
+-
+-&uart4 {
+-	status = "okay";
+-};
+-
+-&i2c1 {
+-	status = "okay";
+-	clock-frequency = <100000>;
+-};
+-
+-&mbox {
+-	status = "okay";
+-};
+-
+-&rproc {
+-	status = "okay";
+-	memory-region = <&c906l>, <&vdev0vring0>, <&vdev0vring1>, <&vdev0buffer>;
+-	mboxes = <&mbox 2 &mbox 3>;
+-	mbox-names = "rx", "tx";
+-	core-name = "c906l";
+-	firmware-name = "firmware.elf";
+-};
+ 
+ /{
++	model = "Milk-V Duo";
++
+ 	reserved-memory {
+ 		#size-cells = <1>;
+ 		#address-cells = <1>;
+@@ -56,23 +26,8 @@ opensbi {
+ 			reg = <0x80000000 0x60000>;
+ 		};
+ 
+-		c906l: c906l@83f40000 {
+-			reg = <0x83f40000 0xb8000>;
+-			no-map;
+-		};
+-
+-		vdev0buffer: vdev0buffer@83ff8000 {
+-			reg = <0x83ff8000 0x4000>;
+-			no-map;
+-		};
+-
+-		vdev0vring0: vdev0vring0@83ffc000 {
+-			reg = <0x83ffc000 0x2000>;
+-			no-map;
+-		};
+-
+-		vdev0vring1: vdev0vring1@83ffe000 {
+-			reg = <0x83ffe000 0x2000>;
++		c906l {
++			reg = <CVIMMAP_FREERTOS_ADDR CVIMMAP_FREERTOS_SIZE>;
+ 			no-map;
+ 		};
+ 	};
+diff --git a/arch/riscv/boot/dts/cvitek/cv180x_default_memmap.dtsi b/arch/riscv/boot/dts/cvitek/cv180x_default_memmap.dtsi
+index 0fb2cd353cd5..3c1e6e59304d 100644
+--- a/arch/riscv/boot/dts/cvitek/cv180x_default_memmap.dtsi
++++ b/arch/riscv/boot/dts/cvitek/cv180x_default_memmap.dtsi
+@@ -1,17 +1,10 @@
+ / {
+ 	memory@80000000 {
+ 		device_type = "memory";
+-		reg = <0x80000000 0x3f40000>;
++		reg = <CVIMMAP_DRAM_BASE CVIMMAP_KERNEL_MEMORY_SIZE>;
+ 	};
+ 
+ 
+-	fast_image {
+-		compatible = "cvitek,rtos_image";
+-		reg-names = "rtos_region";
+-		reg = <CVIMMAP_FREERTOS_ADDR CVIMMAP_FREERTOS_SIZE>;
+-		ion-size = <CVIMMAP_FREERTOS_RESERVED_ION_SIZE>;	//reserved ion size for freertos
+-	};
+-
+ 	reserved-memory {
+ 		#size-cells = <1>;
+ 		#address-cells = <1>;
+-- 
+2.34.1
+

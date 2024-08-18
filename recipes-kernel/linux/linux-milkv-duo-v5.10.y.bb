@@ -2,7 +2,7 @@ require recipes-kernel/linux/linux-mainline-common.inc
 
 SUMMARY = "Milk-V Duo mainline kernel recipe"
 
-LINUX_VERSION ?= "6.8+"
+LINUX_VERSION ?= "5.10+"
 KERNEL_VERSION_SANITY_SKIP="1"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
@@ -21,7 +21,7 @@ SRC_URI = " \
 	file://dts-switch-to-single-cell-address.patch \
 	file://dts-add-remoteproc-support.patch \
 	file://dts-add-pinctrl.patch \
-	file://dts-enable-ephy-leds.patch \
+	file://dts-refactor-milkv-duo.patch \
 	file://v5_10_y_defconfig \
 	file://multi.its \
 "
