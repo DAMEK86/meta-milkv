@@ -22,13 +22,16 @@ SRC_URI = " \
 	file://dts-add-remoteproc-support.patch \
 	file://dts-add-pinctrl.patch \
 	file://dts-refactor-milkv-duo.patch \
+	file://dts-add-milkv-duo256m-and-milkv-duos.patch \
 	file://v5_10_y_defconfig \
 	file://multi.its \
 "
 
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-milkv-duo:"
 
-KERNEL_DEVICETREE ?= "cvitek/cv1800b_milkv_duo_sd.dtb"
+KERNEL_DEVICETREE:milkv-duo ?= "cvitek/cv1800b_milkv_duo_sd.dtb"
+KERNEL_DEVICETREE:milkv-duos ?= "cvitek/sg2000_milkv_duos_sd.dtb"
+KERNEL_DEVICETREE:milkv-duo256m ?= "cvitek/sg2002_milkv_duo256m_sd.dtb"
 
 DEPENDS = "u-boot-mkimage-native dtc-native"
 
@@ -42,4 +45,4 @@ do_deploy:append() {
 	install -m 744 ${B}/arch/riscv/boot/dts/${KERNEL_DEVICETREE} ${DEPLOYDIR}/default.dtb
 }
 
-COMPATIBLE_MACHINE = "milkv-duo"
+COMPATIBLE_MACHINE = "milkv-(duo|duo256m|duos)"

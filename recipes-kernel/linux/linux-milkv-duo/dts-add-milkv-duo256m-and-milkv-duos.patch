@@ -1,0 +1,96 @@
+From c431ba586613114b848e5bfd83fadde31790d417 Mon Sep 17 00:00:00 2001
+From: GP Orcullo <kinsamanka@gmail.com>
+Date: Sat, 17 Aug 2024 14:39:00 +0000
+Subject: [PATCH] dts: add milkv-duo256m and milkv-duos
+
+Upstream-Status: Pending
+---
+ .../boot/dts/cvitek/sg2000_milkv_duos_sd.dts  | 34 +++++++++++++++++++
+ .../dts/cvitek/sg2002_milkv_duo256m_sd.dts    | 34 +++++++++++++++++++
+ 2 files changed, 68 insertions(+)
+ create mode 100644 arch/riscv/boot/dts/cvitek/sg2000_milkv_duos_sd.dts
+ create mode 100644 arch/riscv/boot/dts/cvitek/sg2002_milkv_duo256m_sd.dts
+
+diff --git a/arch/riscv/boot/dts/cvitek/sg2000_milkv_duos_sd.dts b/arch/riscv/boot/dts/cvitek/sg2000_milkv_duos_sd.dts
+new file mode 100644
+index 000000000000..592fabd81d35
+--- /dev/null
++++ b/arch/riscv/boot/dts/cvitek/sg2000_milkv_duos_sd.dts
+@@ -0,0 +1,34 @@
++/dts-v1/;
++
++#define CVIMMAP_DRAM_BASE 0x80000000
++#define CVIMMAP_FREERTOS_ADDR 0x9fe00000
++#define CVIMMAP_FREERTOS_SIZE 0x200000
++#define CVIMMAP_ION_ADDR 0x95400000
++#define CVIMMAP_ION_SIZE 0xaa00000
++#define CVIMMAP_KERNEL_MEMORY_SIZE 0x1fe00000
++
++#include "cv180x_base_riscv.dtsi"
++#include "cv180x_asic_qfn.dtsi"
++#include "cv180x_asic_sd.dtsi"
++#include "cv180x_default_memmap.dtsi"
++
++
++/{
++	model = "Milk-V DuoS";
++
++	reserved-memory {
++		#size-cells = <1>;
++		#address-cells = <1>;
++		ranges;
++
++		opensbi {
++			compatible = "removed-dma-pool";
++			reg = <0x80000000 0x60000>;
++		};
++
++		c906l {
++			reg = <CVIMMAP_FREERTOS_ADDR CVIMMAP_FREERTOS_SIZE>;
++			no-map;
++		};
++	};
++};
+diff --git a/arch/riscv/boot/dts/cvitek/sg2002_milkv_duo256m_sd.dts b/arch/riscv/boot/dts/cvitek/sg2002_milkv_duo256m_sd.dts
+new file mode 100644
+index 000000000000..c9c48ce2d862
+--- /dev/null
++++ b/arch/riscv/boot/dts/cvitek/sg2002_milkv_duo256m_sd.dts
+@@ -0,0 +1,34 @@
++/dts-v1/;
++
++#define CVIMMAP_DRAM_BASE 0x80000000
++#define CVIMMAP_FREERTOS_ADDR 0x8fe00000
++#define CVIMMAP_FREERTOS_SIZE 0x200000
++#define CVIMMAP_ION_ADDR 0x8b300000
++#define CVIMMAP_ION_SIZE 0x4b00000
++#define CVIMMAP_KERNEL_MEMORY_SIZE 0xFE00000
++
++#include "cv180x_base_riscv.dtsi"
++#include "cv180x_asic_qfn.dtsi"
++#include "cv180x_asic_sd.dtsi"
++#include "cv180x_default_memmap.dtsi"
++
++
++/{
++	model = "Milk-V Duo256M";
++
++	reserved-memory {
++		#size-cells = <1>;
++		#address-cells = <1>;
++		ranges;
++
++		opensbi {
++			compatible = "removed-dma-pool";
++			reg = <0x80000000 0x60000>;
++		};
++
++		c906l {
++			reg = <CVIMMAP_FREERTOS_ADDR CVIMMAP_FREERTOS_SIZE>;
++			no-map;
++		};
++	};
++};
+-- 
+2.34.1
+
