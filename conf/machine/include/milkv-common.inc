@@ -10,7 +10,6 @@ KERNEL_CLASSES = "kernel"
 KERNEL_IMAGETYPE = "Image.gz"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-milkv-duo-dev"
-PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-milkv"
 
 PREFERRED_VERSION_openocd-native = "riscv"
 PREFERRED_VERSION_openocd = "riscv"
