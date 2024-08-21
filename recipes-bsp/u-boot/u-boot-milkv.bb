@@ -3,6 +3,8 @@ require recipes-bsp/u-boot/u-boot.inc
 
 DEPENDS:append = " xxd-native bc-native"
 
+PROVIDES += "u-boot"
+
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
 
 SRC_URI = "git://github.com/milkv-duo/milkv-duo-u-boot;protocol=https;branch=duo-64mb \

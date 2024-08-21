@@ -9,8 +9,6 @@ SRC_URI = "git://github.com/milkv-duo/milkv-duo-buildroot-libraries;protocol=htt
            "
 SRCREV = "f359994bd497f942bb67734280d81f6640c7c168"
 
-DEPENDS:append = " u-boot-milkv"
-
 COMPATIBLE_MACHINE = "milkv-(duo|duo256m|duos)"
 
 S = "${WORKDIR}/git/firmware"
